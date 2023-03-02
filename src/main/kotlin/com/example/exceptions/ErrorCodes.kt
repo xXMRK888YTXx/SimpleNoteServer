@@ -1,0 +1,16 @@
+package com.example.exceptions
+
+object ErrorCodes {
+    const val MISSING_PATH_PARAM = "MISSING_PATH_PARAM"
+    const val MISSING_HEADER_PARAM = "MISSING_HEADER_PARAM"
+    const val INVALID_PATH_PARAM_TYPE = "INVALID_PATH_PARAM_TYPE"
+    const val MISSING_USER_AGENT = "MISSING_USER_AGENT"
+    const val MISSING_TOKEN = "MISSING_TOKEN"
+
+    //login error
+    const val ACCOUNT_ALREADY_EXIST = "ACCOUNT_ALREADY_EXIST"
+    const val ACCOUNT_NOT_FOUND = "ACCOUNT_NOT_FOUND"
+    const val INVALID_PASSWORD = "INVALID_PASSWORD"
+    const val SESSION_EXPRESSION = "SESSION_EXPRESSION"
+
+}

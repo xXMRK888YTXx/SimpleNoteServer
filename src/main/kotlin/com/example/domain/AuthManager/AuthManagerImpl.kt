@@ -32,7 +32,7 @@ class AuthManagerImpl(
         val token = secureUtils.generateToken()
         tokenDao.insertToken(TokenEntity(id, token, userAgent))
 
-        return LoginResponseModel(token)
+        return LoginResponseModel(login.lowercase(),token)
     }
 
     override fun loginInAccount(login: String, password: String, userAgent: String): LoginResponseModel {
@@ -44,11 +44,11 @@ class AuthManagerImpl(
         return if (passwordHash == accountData.hashPassword) {
             val existToken = tokenDao.findToken(accountData.id, userAgent)
             if (existToken != null) {
-                LoginResponseModel(existToken.token)
+                LoginResponseModel(accountData.login,existToken.token)
             } else {
                 val newToken = secureUtils.generateToken()
                 tokenDao.insertToken(TokenEntity(accountData.id, newToken, userAgent))
-                LoginResponseModel(newToken)
+                LoginResponseModel(accountData.login,newToken)
             }
         } else {
             throw InvalidPasswordException()

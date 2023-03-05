@@ -42,5 +42,15 @@ fun Application.configureAuthRouting(authManager: AuthManager) {
                 call.respond(HttpStatusCode.OK)
             }
         }
+
+        get("$baseurl/isValidSession") {
+            wrapRequest {
+                if(authManager.isValidSession(token,userAgent)) {
+                    call.respond(HttpStatusCode.OK)
+                } else {
+                    call.respond(HttpStatusCode.Unauthorized)
+                }
+            }
+        }
     }
 }

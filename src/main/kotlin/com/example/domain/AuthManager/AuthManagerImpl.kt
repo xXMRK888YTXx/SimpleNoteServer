@@ -62,4 +62,8 @@ class AuthManagerImpl(
         tokenDao.removeToken(tokenInfo.accountId,tokenInfo.userAgent)
     }
 
+    override fun isValidSession(token: String, userAgent: String) : Boolean {
+        return tokenDao.findToken(token, userAgent) != null
+    }
+
 }

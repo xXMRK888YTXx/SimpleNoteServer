@@ -9,4 +9,6 @@ interface AuthManager {
     fun loginInAccount(login:String,password:String,userAgent: String) : LoginResponseModel
 
     fun logout(token:String,userAgent: String)
+
+    fun isValidSession(token: String,userAgent: String) : Boolean
 }

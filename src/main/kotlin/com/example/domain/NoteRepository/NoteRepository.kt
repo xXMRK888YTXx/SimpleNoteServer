@@ -4,7 +4,7 @@ import com.example.Database.entity.NoteEntity
 import com.example.domain.RespondModels.NoteRespondModel
 
 interface NoteRepository {
-    fun addNote(token:String,userAgent:String,noteTitle:String,noteText:String)
+    fun addNote(token:String,userAgent:String,noteTitle:String,noteText:String) : NoteRespondModel
 
     fun getAllAccountNotes(token: String,userAgent:String) : List<NoteRespondModel>
 

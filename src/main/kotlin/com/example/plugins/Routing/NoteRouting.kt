@@ -19,24 +19,25 @@ fun Application.configureNoteRouting(noteRepository: NoteRepository) {
                 val noteText = getPathParam("noteText")
 
 
-                noteRepository.addNote(
-                    token = token,
-                    userAgent = userAgent,
-                    noteTitle = noteTitle,
-                    noteText = noteText
+                call.respond(
+                    HttpStatusCode.OK,
+                    noteRepository.addNote(
+                        token = token,
+                        userAgent = userAgent,
+                        noteTitle = noteTitle,
+                        noteText = noteText
+                    )
                 )
-
-                call.respond(HttpStatusCode.OK)
             }
         }
 
         get("$baseUrl/getNotes") {
-           wrapRequest {
-               call.respond(
-                   HttpStatusCode.OK,
-                   noteRepository.getAllAccountNotes(token,userAgent)
-               )
-           }
+            wrapRequest {
+                call.respond(
+                    HttpStatusCode.OK,
+                    noteRepository.getAllAccountNotes(token, userAgent)
+                )
+            }
         }
 
         delete("$baseUrl/deleteNote") {
@@ -47,7 +48,7 @@ fun Application.configureNoteRouting(noteRepository: NoteRepository) {
 
                 call.respond(
                     HttpStatusCode.OK,
-                    noteRepository.removeNote(token,userAgent,noteId)
+                    noteRepository.removeNote(token, userAgent, noteId)
                 )
             }
         }
@@ -60,7 +61,7 @@ fun Application.configureNoteRouting(noteRepository: NoteRepository) {
                 val updatedNoteTitle = getPathParamOrNull("noteTitle")
                 val updateNoteText = getPathParamOrNull("noteText")
 
-                if(updatedNoteTitle == null&&updateNoteText == null)
+                if (updatedNoteTitle == null && updateNoteText == null)
                     throw MissingPathParamException()
 
                 noteRepository.updateNote(

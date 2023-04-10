@@ -11,16 +11,16 @@ class NoteRepositoryImpl(
     private val accountInfoProvider: AccountInfoProvider,
     private val noteDao: NoteDao
 ) : NoteRepository {
-    override fun addNote(token: String, userAgent: String, noteTitle: String, noteText: String) {
+    override fun addNote(token: String, userAgent: String, noteTitle: String, noteText: String) : NoteRespondModel {
         val accountData = accountInfoProvider.getAccountDataByToken(token, userAgent)
 
-        noteDao.insertNote(
+         return noteDao.insertNote(
             NoteEntity(
                 accountOwnerId = accountData.id,
                 noteTitle = noteTitle,
                 noteText = noteText
             )
-        )
+        ).toNoteRespondModel()
     }
 
     override fun getAllAccountNotes(token: String, userAgent: String): List<NoteRespondModel> {

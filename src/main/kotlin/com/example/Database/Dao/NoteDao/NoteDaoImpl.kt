@@ -6,16 +6,31 @@ import com.example.Database.tables.TokenTable
 import org.ktorm.database.Database
 import org.ktorm.database.asIterable
 import org.ktorm.dsl.*
+import javax.management.Query.and
 
 class NoteDaoImpl(private val database: Database) : NoteDao {
 
-    override fun insertNote(noteEntity: NoteEntity) {
+    override fun insertNote(noteEntity: NoteEntity) : NoteEntity {
         database.insert(NoteTable) {
             set(it.noteId,noteEntity.noteId)
             set(it.accountOwnerId, noteEntity.accountOwnerId)
             set(it.noteTitle, noteEntity.noteTitle)
             set(it.noteText, noteEntity.noteText)
         }
+
+        return database.from(NoteTable).select()
+            .where { NoteTable.accountOwnerId eq noteEntity.accountOwnerId }
+            .orderBy(NoteTable.noteId.desc())
+            .limit(1)
+            .map {
+                NoteEntity(
+                    noteId = it[NoteTable.noteId]!!,
+                    accountOwnerId = it[NoteTable.accountOwnerId]!!,
+                    noteTitle = it[NoteTable.noteTitle]!!,
+                    noteText = it[NoteTable.noteText]!!
+                )
+            }.first()
+
     }
 
     override fun getAllAccountNotes(accountId: Int): List<NoteEntity> {
